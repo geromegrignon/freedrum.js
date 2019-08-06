@@ -7,7 +7,7 @@ main{
     display: flex;
     align-items: center;
     position: absolute;
-    z-index: 0;
+    z-index: 1;
     width: 100%;
     height: 100%;
     opacity: 1;
@@ -41,7 +41,7 @@ h3{
     font-size: 1.3em;
 }
 
-button{
+#connect-btn{
     background: white;
     padding: .5em 1em;
     margin: 1em .5em;
@@ -52,6 +52,14 @@ button{
     position: absolute;
 }
 
+.btn {
+    background: white;
+    padding: .5em 1em;
+    margin: 1em .5em;
+    border-radius: 5px;
+    font-size: .8em;
+}
+
 .fade{
     animation: fadeOut .7s forwards;
 }
@@ -59,4 +67,66 @@ button{
 @keyframes fadeOut {
     from { opacity: 1; }
     to   { opacity: 0; }
+}
+
+.sensors-sections {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.sensors-sections-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.fading {
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    background: green;
+}
+
+.signal {
+    display: inline-block;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    background: green;
+    visibility: hidden;
+}
+
+.sensor {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 3px;
+    margin: 10px;
+    height: 62px;
+    width: 219px;
+}
+
+.sensor button {
+    background: linear-gradient(to bottom, rgba(21, 24, 44, 0.952), rgba(42, 13, 80, 0.952));
+    border: none;
+    outline: none;
+}
+
+.sensor button i {
+    color: white;
+}
+
+.add {
+    background: green;
+    border:none;
+    color: white;
+    outline: none;
+}
+
+.add span {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
