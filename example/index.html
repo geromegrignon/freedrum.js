@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Freedrum.js - Interact with the browser using the Freedrum controllers</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/two.js/0.6.0/two.min.js"></script>
 </head>
 <body>
@@ -13,10 +15,78 @@
         <section>
             <h1>Freedrum.js 🥁</h1>
             <h3>Play Air Drums and interact with the browser using the Freedrum sensors</h3>
+            <div class="sensors-sections">
+                <div class="sensors-sections-item">
+                    <div id="sensor-container-stick-0" class="btn sensor-container">
+                        <div id="sensor-signal-stick-0" class="signal"></div>
+                        <span id="sensor-name-stick-0" class="sensor-name"></span>
+                        <button id="sensor-btn-stick-0"><i class="material-icons disconnect-icon">bluetooth_disabled</i></button>
+                    </div>
+                    <button id="sensor-add-stick-0" class="btn add">
+                            <i class="material-icons icons">add</i>
+                            <span>Add a stick sensor</span>
+                    </button>
+                    <div id="sensor-container-stick-1" class="btn sensor-container">
+                        <div id="sensor-signal-stick-1" class="signal"></div>
+                        <span id="sensor-name-stick-1" class="sensor-name"></span>
+                        <button id="sensor-btn-stick-1"><i class="material-icons disconnect-icon">bluetooth_disabled</i></button>
+                    </div>
+                    <button id="sensor-add-stick-1" class="btn add">
+                            <i class="material-icons icons">add</i>
+                            <span>Add a stick sensor</span>
+                    </button>
+                </div>
+                <div class="sensors-sections-item">
+                    <div id="sensor-container-foot-0" class="btn sensor-container">
+                        <div id="sensor-signal-foot-0" class="signal"></div>
+                        <span id="sensor-name-foot-0" class="sensor-name"></span>
+                        <button id="sensor-btn-foot-0"><i class="material-icons disconnect-icon">bluetooth_disabled</i></button>
+                    </div>
+                    <button id="sensor-add-foot-0" class="btn add">
+                            <i class="material-icons icons">add</i>
+                            <span>Add a foot sensor</span>
+                    </button>
+                    <div id="sensor-container-foot-1" class="btn sensor-container">
+                        <div id="sensor-signal-foot-1" class="signal"></div>
+                        <span id="sensor-name-foot-1" class="sensor-name"></span>
+                        <button id="sensor-btn-foot-1"><i class="material-icons disconnect-icon">bluetooth_disabled</i></button>
+                    </div>
+                    <button id="sensor-add-foot-1" class="btn add">
+                            <i class="material-icons icons">add</i>
+                            <span>Add a foot sensor</span>
+                    </button>
+                </div>
+            </div>
+            <div class="shapes-container">
+                <button id="shape-square" class="btn">
+                    <i class="material-icons">crop_din</i>
+                    <span>Set square note</span>
+                </button>
+                <button id="shape-circle" class="btn">
+                    <i class="material-icons">panorama_fish_eye</i>
+                    <span>Set circle note</span>
+                </button>
+                <button id="shape-line" class="btn">
+                    <i class="material-icons">remove</i>
+                    <span>Set line note</span>
+                </button>
+                <button id="shape-triangle" class="btn">
+                    <i class="material-icons">change_history</i>
+                    <span>Set triangle note</span>
+                </button>
+            </div>
+            <button id="play-btn" class="btn">
+                <i class="material-icons">audiotrack</i>
+                <span>Play</span>
+            </button>
         </section>
     </main>
-
-    <button>Connect sensors</button>
+    <footer>
+            <div>humble</div>
+            <a href="https://github.com/geromegrignon/freedrum.js" target="_blank">fork</a>
+            <div>from</div>
+            <a href="https://github.com/charliegerard/freedrum.js" target="_blank">Charlie Gerard's work</a>
+        </footer>
 
     <div id="animations"></div>
 
