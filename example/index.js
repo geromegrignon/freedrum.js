@@ -1,6 +1,10 @@
 let bluetoothLEMidi = '03b80e5a-ede8-4b33-a751-6ce34ec4c700';
 let bleMidiCharacteristic = '7772e5db-3868-4112-a1a9-f2669d106bf3';
-let numSensors = 0;
+let noteToSet = undefined;
+let mode = 'test';
+let audio;
+
+let sensors = [];
 
 var cowbell = new Howl({src: ['../assets/cowbell.wav']});
 var kick = new Howl({src: ['../assets/kick.wav']});
@@ -9,6 +13,22 @@ var closedHiHat = new Howl({src: ['../assets/closed-hi-hat.wav']});
 var bassDrum = new Howl({src: ['../assets/bass-drum.wav']});
 var hiHatCymbal = new Howl({src: ['../assets/hi-hat-cymbal.mp3']});
 var heavySnare = new Howl({src: ['../assets/heavy-snare.wav']});
+
+class Shape {
+  constructor(name, draw, note, audio) {
+    this.name = name;
+    this.note = note;
+    this.draw = draw;
+    this.audio = audio
+  }
+}
+
+var squareShape = new Shape('square', drawSquare, 38, (volume) => {bassDrum.play();bassDrum.volume(volume);});
+var circleShape = new Shape('circle', drawCircle, 50, (volume) => {hiHatCymbal.play();hiHatCymbal.volume(volume);});
+var lineShape = new Shape('line', drawLine, 36, (volume) => {heavySnare.play();heavySnare.volume(volume);});
+var triangleShape = new Shape('triangle', drawTriangle, 44, (volume) => {kick.play();kick.volume(volume);});
+
+const shapes = [squareShape, circleShape, lineShape, triangleShape];
 
 class FreedrumStick {
   constructor(name) {
@@ -36,7 +56,6 @@ class FreedrumStick {
     if (!this.device) {
       return Promise.reject('Device is not connected.');
     }
-    numSensors+=1;
     return this.device.gatt.connect();
   }
   
@@ -58,6 +77,10 @@ class FreedrumStick {
 
   onDisconnected() {
     console.log('Device is disconnected.');
+    let sensorName = sensors.find(sensor => sensor.device === this.device).name;
+    hideSensorInfo(sensorName);
+    let id = sensors.findIndex(sensor => sensor.device === this.device);
+    sensors.splice(id, 1);
   }
 
   handleData(event){
@@ -72,77 +95,179 @@ class FreedrumStick {
       // z = (x - min(x)) / (max(x) - min(x))
       // z = (volume - Math.min(0,127)) / (Math.max(0,127) - Math.min(0,127));
       let normalizedVolume = (volume - Math.min(0,127)) / (Math.max(0,127) - Math.min(0,127));
-  
-      if(this.device.id === "XrnS1FRG/q/kM7ecsfErcg==" || this.device.id === "T/P6X0jDSadbdUXxRjjAVw=="){
-        this.handleDrumSticksEvents(command, note, normalizedVolume);
-      } 
-      
-      if(this.device.id === "6lASiqGNnfck4kO66nRlGw==" || this.device.id === "dJTKMPg47ZLgP4PAEBuWZw=="){
-        this.handlePedalEvents(command, note, normalizedVolume);
-      } 
+
+      sensors.forEach(sensor => {
+        if(this.device.id === sensor.device.id) {
+          displayLight(sensor.name);
+          this.handleDrumEvents(command, note, normalizedVolume);
+        }
+      });
   }
 
-  handleDrumSticksEvents(command, note, volume){
+  handleDrumEvents(command, note, volume){
     if(command === 153){
-      if(note === 50){
-        hiHatCymbal.play()
-        hiHatCymbal.volume(volume);
-        drawSquare();
-      }
-
-      if(note === 51){
-        heavySnare.play()
-        heavySnare.volume(volume);
-        drawCircle();
-      }
-    }
-  }
-
-  handlePedalEvents(command, note, volume){
-    if(command === 153){
-      if(note === 44){
-        bassDrum.play()
-        bassDrum.volume(volume);
-        drawLine();
-      }
-
-      if(note ===50){
-        closedHiHat.play()
-        closedHiHat.volume(volume);
-        drawTriangle();
+      if(mode === 'test') {
+        if(noteToSet !== undefined) {
+          resetShape(note);
+          changeShape(note); 
+        } else {
+          testShape(note);
+        }
+      } else {
+        play(note, volume);
       }
     }
   }
 }
-  
-var freeDrumStickOne = new FreedrumStick("XrnS1FRG/q/kM7ecsfErcg=="); // FD2 v8
-var freeDrumStickTwo = new FreedrumStick("T/P6X0jDSadbdUXxRjjAVw=="); // FD2 v8
-var freeDrumFootOne = new FreedrumStick("6lASiqGNnfck4kO66nRlGw=="); // FD2 v9
-var freeDrumFootTwo = new FreedrumStick("dJTKMPg47ZLgP4PAEBuWZw=="); // FD2 v9
 
-const sensors = [freeDrumStickOne, freeDrumStickTwo, freeDrumFootOne, freeDrumFootTwo];
+/* handle data */
 
-document.querySelector('button').addEventListener('click', event => {
-  let currentSensor = getSensorToConnect()
+function play(note, volume) {
+  shapes.forEach(shape => {
+    if(note === shape.note) {
+      shape.draw();
+      shape.audio(volume);
+    }
+  });
+}
+
+function testShape(note) {
+  shapes.forEach(shape => {
+    if(note === shape.note) {
+      var id = 'shape-' + shape.name;
+      document.getElementById(id).style.background = 'orange';
+      setTimeout(() => document.getElementById(id).style.background = 'white', 300);
+    }
+  });
+}
+
+function changeShape(note) {
+  shapes.forEach(shape => {
+    if(shape.name === noteToSet) {
+      shape.note = note;
+    }
+  });
+  noteToSet = undefined; 
+}
+
+function resetShape(note) {
+  shapes.forEach(shape => {
+    if(shape.note === note) {
+      shape.note = undefined;
+      var id = 'shape-' + shape.name;
+      document.getElementById(id).style.background = 'grey';
+    }
+  });
+}
+
+
+/* Event listeners */
+
+document.querySelector('#sensor-add-stick-0').addEventListener('click', event => {
+  audio = new AudioContext();
+  audio.resume().then(() => {
+    console.log('Playback resumed successfully');
+  });
+  let currentSensor = new FreedrumStick('stick-0');
+  sensors = [...sensors, currentSensor];
   currentSensor.request()
   .then(_ => currentSensor.connect())
   .then(_ => { 
-    if(numSensors === 4){
-      const button = document.getElementsByTagName('button')[0];
-      button.classList.add('fade');
-      const title = document.getElementsByTagName('main')[0];
-      title.classList.add('fade');
-    }
-    currentSensor.getFreedrumData()
+    currentSensor.getFreedrumData();
+    displaySensorInfo(currentSensor);
   })
   .catch(error => { console.log(error) });
 });
 
-const getSensorToConnect = () => {
-  for(sensor of sensors){
-    if(sensor.device === null){
-      let currentSensor = sensor;
-      return currentSensor;
-    }
-  }
+document.querySelector('#sensor-add-stick-1').addEventListener('click', event => {
+  let currentSensor = new FreedrumStick('stick-1');
+  sensors = [...sensors, currentSensor];
+  currentSensor.request()
+  .then(_ => currentSensor.connect())
+  .then(_ => { 
+    currentSensor.getFreedrumData();
+    displaySensorInfo(currentSensor);
+  })
+  .catch(error => { console.log(error) });
+});
+
+document.querySelector('#sensor-add-foot-0').addEventListener('click', event => {
+  let currentSensor = new FreedrumStick('foot-0');
+  sensors = [...sensors, currentSensor];
+  currentSensor.request()
+  .then(_ => currentSensor.connect())
+  .then(_ => { 
+    currentSensor.getFreedrumData();
+    console.log(currentSensor);
+    displaySensorInfo(currentSensor);
+  })
+  .catch(error => { console.log(error) });
+});
+
+document.querySelector('#sensor-add-foot-1').addEventListener('click', event => {
+  let currentSensor = new FreedrumStick('foot-1');
+  sensors = [...sensors, currentSensor];
+  currentSensor.request()
+  .then(_ => currentSensor.connect())
+  .then(_ => { 
+    currentSensor.getFreedrumData();
+    displaySensorInfo(currentSensor);
+  })
+  .catch(error => { console.log(error) });
+});
+
+document.getElementById('play-btn').addEventListener('click', event => {
+  fadeContent();
+});
+
+document.getElementById('sensor-btn-stick-0').addEventListener('click', event => {
+  let sensor = sensors.find(sensor => sensor.name === 'stick-0');
+    sensor.disconnect();
+});
+
+document.getElementById('sensor-btn-stick-1').addEventListener('click', event => {
+  let sensor = sensors.find(sensor => sensor.name === 'stick-1');
+    sensor.disconnect();
+});
+
+document.getElementById('sensor-btn-foot-0').addEventListener('click', event => {
+  let sensor = sensors.find(sensor => sensor.name === 'foot-0');
+    sensor.disconnect();
+});
+
+document.getElementById('sensor-btn-foot-1').addEventListener('click', event => {
+  let sensor = sensors.find(sensor => sensor.name === 'foot-1');
+    sensor.disconnect();
+});
+
+document.getElementById('shape-square').addEventListener('click', event => noteToSet = 'square');
+document.getElementById('shape-circle').addEventListener('click', event => noteToSet = 'circle');
+document.getElementById('shape-line').addEventListener('click', event => noteToSet = 'line');
+document.getElementById('shape-triangle').addEventListener('click', event => noteToSet = 'triangle');
+
+/* Utilities */
+
+function displaySensorInfo(sensor) {
+  document.getElementById('sensor-container-' + sensor.name).style.display = 'flex';
+  document.getElementById('sensor-add-' + sensor.name).style.display = 'none';
+  document.getElementById('sensor-name-' + sensor.name).innerHTML = sensor.device.name;
+}
+
+function displayLight(sensorName) {
+  let id = 'sensor-signal-' + sensorName;
+  document.getElementById(id).style.visibility = 'visible' ;
+  setTimeout(() => document.getElementById(id).style.visibility = 'hidden', 500);
+}
+
+function hideSensorInfo(sensorName) {
+  document.getElementById('sensor-container-' + sensorName).style.display = 'none';
+  document.getElementById('sensor-add-' + sensorName).style.display = 'flex';
+}
+
+function fadeContent() {
+  const title = document.getElementsByTagName('main')[0];
+  title.classList.add('fade');
+  const footer = document.getElementsByTagName('footer')[0];
+  footer.classList.add('fade');
+  mode = 'play';
 }
