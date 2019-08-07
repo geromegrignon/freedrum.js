@@ -6,13 +6,13 @@ let audio;
 
 let sensors = [];
 
-var cowbell = new Howl({src: ['../assets/cowbell.wav']});
-var kick = new Howl({src: ['../assets/kick.wav']});
-var snare = new Howl({src: ['../assets/snare.wav']});
-var closedHiHat = new Howl({src: ['../assets/closed-hi-hat.wav']});
-var bassDrum = new Howl({src: ['../assets/bass-drum.wav']});
-var hiHatCymbal = new Howl({src: ['../assets/hi-hat-cymbal.mp3']});
-var heavySnare = new Howl({src: ['../assets/heavy-snare.wav']});
+var cowbell = new Howl({src: ['./assets/cowbell.wav']});
+var kick = new Howl({src: ['./assets/kick.wav']});
+var snare = new Howl({src: ['./assets/snare.wav']});
+var closedHiHat = new Howl({src: ['./assets/closed-hi-hat.wav']});
+var bassDrum = new Howl({src: ['./assets/bass-drum.wav']});
+var hiHatCymbal = new Howl({src: ['./assets/hi-hat-cymbal.mp3']});
+var heavySnare = new Howl({src: ['./assets/heavy-snare.wav']});
 
 class Shape {
   constructor(name, draw, note, audio) {

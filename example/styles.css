@@ -45,19 +45,6 @@ h3{
     font-size: 1.3em;
 }
 
-/*
-#connect-btn{
-    background: white;
-    padding: .5em 1em;
-    margin: 1em .5em;
-    border-radius: 5px;
-    font-size: .8em;
-    display: block;
-    z-index: 1;
-    position: absolute;
-}
-*/
-
 .fade{
     animation: fadeOut .7s forwards;
 }
@@ -95,6 +82,7 @@ h3{
     border-radius: 50%;
     height: 20px;
     width: 20px;
+    margin-left: 10px;
     background: green;
     visibility: hidden;
 }
@@ -161,7 +149,6 @@ button i {
 }
 
 .sensor-container {
-    padding-left: 10px;
     display: none;
 }
 
