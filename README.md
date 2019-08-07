@@ -1,3 +1,7 @@
+> Enhanced version built on top of following Freedrum.js from Charlie Gerard
+ 
+Hosted example on [Netlify](https://freedrumjs.netlify.com/)
+
 # Freedrum.js 🥁
 
 Play Air Drums and interact with the browser using the <a href="https://freedrum.rocks" target="_blank">Freedrum sensors</a>.
