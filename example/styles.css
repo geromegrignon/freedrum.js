@@ -14,9 +14,12 @@ main{
 }
 
 section{
-    text-align: center; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 100%;
     height: fit-content;
+    align-items: center;
 }
 
 #animations{
@@ -52,7 +55,7 @@ h3{
     position: absolute;
 }
 
-.btn {
+.bttn {
     background: white;
     padding: .5em 1em;
     margin: 1em .5em;
@@ -97,7 +100,7 @@ h3{
     visibility: hidden;
 }
 
-.sensor {
+.btn {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -108,15 +111,17 @@ h3{
     margin: 10px;
     height: 62px;
     width: 219px;
+    outline: none;
+    border: none;
 }
 
-.sensor button {
+.btn button {
     background: linear-gradient(to bottom, rgba(21, 24, 44, 0.952), rgba(42, 13, 80, 0.952));
     border: none;
     outline: none;
 }
 
-.sensor button i {
+.btn button i {
     color: white;
 }
 
@@ -129,4 +134,18 @@ h3{
 
 .add span {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#shapes-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#shapes-container button {
+    color: black;
+}
+
+button i {
+    margin-right: 10px;
 }

@@ -17,71 +17,64 @@
             <h3>Play Air Drums and interact with the browser using the Freedrum sensors</h3>
             <div class="sensors-sections">
                 <div class="sensors-sections-item">
-                    <div id="stick-sensor-container-0" class="sensor">
+                    <div id="stick-sensor-container-0" class="btn">
                         <div id="stick-sensor-signal-0" class="signal"></div>
-                        <select name="stick-sensor-shape-0" id="stick-sensor-shape-0" onchange="console.log(this.value);">
-                            <option value="">-- Select a shape --</option>
-                            <option value="square">Square</option>
-                            <option value="circle">Circle</option>
-                            <option value="line">Line</option>
-                            <option value="triangle">Triangle</option>
-                        </select>
-                        <button class="btn" id="stick-sensor-btn-0"><i class="material-icons">bluetooth_disabled</i></button>
+                        <button id="stick-sensor-btn-0"><i class="material-icons">bluetooth_disabled</i></button>
                     </div>
-                    <button id="stick-sensor-add-0" class="sensor add">
+                    <button id="stick-sensor-add-0" class="btn add">
                             <i class="material-icons">add</i>
                             <span>Add a stick sensor</span>
                     </button>
-                    <div id="stick-sensor-container-1" class="sensor">
+                    <div id="stick-sensor-container-1" class="btn">
                         <div id="stick-sensor-signal-1" class="signal"></div>
-                        <select name="stick-sensor-shape-1" id="stick-sensor-shape-1">
-                            <option value="">-- Select a shape --</option>
-                            <option value="square">Square</option>
-                            <option value="circle">Circle</option>
-                            <option value="line">Line</option>
-                            <option value="triangle">Triangle</option>
-                        </select>
-                        <button class="btn"><i class="material-icons">bluetooth_disabled</i></button>
+                        <button><i class="material-icons">bluetooth_disabled</i></button>
                     </div>
-                    <button id="stick-sensor-add-1" class="sensor add">
+                    <button id="stick-sensor-add-1" class="btn add">
                             <i class="material-icons">add</i>
                             <span>Add a stick sensor</span>
                     </button>
                 </div>
                 <div class="sensors-sections-item">
-                    <div id="foot-sensor-container-0" class="sensor">
+                    <div id="foot-sensor-container-0" class="btn">
                         <div id="foot-sensor-signal-1" class="signal"></div>
-                        <select name="foot-sensor-shape-0" id="foot-sensor-shape-0">
-                            <option value="">-- Select a shape --</option>
-                            <option value="square">Square</option>
-                            <option value="circle">Circle</option>
-                            <option value="line">Line</option>
-                            <option value="triangle">Triangle</option>
-                        </select>
-                        <button class="btn"><i class="material-icons">bluetooth_disabled</i></button>
+                        <button><i class="material-icons">bluetooth_disabled</i></button>
                     </div>
-                    <button id="foot-sensor-add-0" class="sensor add">
+                    <button id="foot-sensor-add-0" class="btn add">
                             <i class="material-icons">add</i>
                             <span>Add a foot sensor</span>
                     </button>
-                    <div id="foot-sensor-container-1" class="sensor">
+                    <div id="foot-sensor-container-1" class="btn">
                         <div id="foot-sensor-signal-1" class="signal"></div>
-                        <select name="foot-sensor-shape-1" id="foot-sensor-shape-1">
-                            <option value="">-- Select a shape --</option>
-                            <option value="square">Square</option>
-                            <option value="circle">Circle</option>
-                            <option value="line">Line</option>
-                            <option value="triangle">Triangle</option>
-                        </select>
-                        <button class="btn"><i class="material-icons">bluetooth_disabled</i></button>
+                        <button><i class="material-icons">bluetooth_disabled</i></button>
                     </div>
-                    <button id="foot-sensor-add-1" class="sensor add">
+                    <button id="foot-sensor-add-1" class="btn add">
                             <i class="material-icons">add</i>
                             <span>Add a foot sensor</span>
                     </button>
                 </div>
             </div>
-            <button id="play-btn" class="btn">Play</button>
+            <div id="shapes-container">
+                <button id="shape-square" class="btn">
+                    <i class="material-icons">crop_din</i>
+                    <span>Set square note</span>
+                </button>
+                <button id="shape-circle" class="btn">
+                    <i class="material-icons">panorama_fish_eye</i>
+                    <span>Set circle note</span>
+                </button>
+                <button id="shape-line" class="btn">
+                    <i class="material-icons">remove</i>
+                    <span>Set line note</span>
+                </button>
+                <button id="shape-triangle" class="btn">
+                    <i class="material-icons">change_history</i>
+                    <span>Set triangle note</span>
+                </button>
+            </div>
+            <button id="play-btn" class="btn">
+                <i class="material-icons">audiotrack</i>
+                <span>Play</span>
+            </button>
         </section>
     </main>
     

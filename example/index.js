@@ -1,6 +1,16 @@
 let bluetoothLEMidi = '03b80e5a-ede8-4b33-a751-6ce34ec4c700';
 let bleMidiCharacteristic = '7772e5db-3868-4112-a1a9-f2669d106bf3';
 let numSensors = 0;
+let noteToSet = undefined;
+let mode = 'test';
+
+class Shape {
+  constructor(name, draw, note) {
+    this.name = name;
+    this.note = note;
+    this.draw = draw;
+  }
+}
 
 class FreedrumStick {
   constructor(name) {
@@ -9,6 +19,7 @@ class FreedrumStick {
     this.handleData = this.handleData.bind(this);
     this.name = name;
   }
+
   
   request() {
     let options = {
@@ -80,9 +91,43 @@ class FreedrumStick {
   }
 
   handleDrumSticksEvents(command, note){
-    console.log(command);
-    console.log(note);
-    if(command === 137){
+    console.log('NOTE : ' + note);
+    console.log('NOTETOSET : ' + noteToSet);
+    if(command === 153){
+      if(mode === 'test') {
+        if(noteToSet !== undefined) {
+          shapes.forEach(shape => {
+            if(shape.note === note) {
+              shape.note = undefined;
+              var id = 'shape-' + shape.name;
+              document.getElementById(id).style.background = 'grey';
+            }
+          });
+          shapes.forEach(shape => {
+            if(shape.name === noteToSet) {
+              shape.note = note;
+            }
+          });
+          noteToSet = undefined;  
+        } else {
+          shapes.forEach(shape => {
+            if(note === shape.note) {
+              var id = 'shape-' + shape.name;
+              document.getElementById(id).style.background = 'orange';
+              setTimeout(() => document.getElementById(id).style.background = 'white', 300);
+            }
+          });
+        }
+      } else {
+        shapes.forEach(shape => {
+          if(note === shape.note) {
+            console.log(shape.draw);
+            shape.draw();
+          }
+        });
+      }
+    } 
+      /*
       if(note === 38){
         drawSquare();
       }
@@ -98,7 +143,7 @@ class FreedrumStick {
       if(note === 46){
         drawTriangle();
       }
-    }
+      */
   }
 
   handlePedalEvents(command, note){
@@ -131,6 +176,13 @@ var freeDrumFootTwo = new FreedrumStick("Dqr4hgehCfi7hpaxdic6eg=="); // FD2 v9
 
 const stickSensors = [freeDrumStickOne, freeDrumStickTwo];
 const footSensors = [freeDrumFootOne, freeDrumFootTwo];
+
+var squareShape = new Shape('square', drawSquare, 38);
+var circleShape = new Shape('circle', drawCircle, 57);
+var lineShape = new Shape('line', drawLine, 41);
+var triangleShape = new Shape('triangle', drawTriangle, 46);
+
+const shapes = [squareShape, circleShape, lineShape, triangleShape];
 
 /* Connects to bluetooth devices */
 
@@ -174,6 +226,7 @@ document.querySelector('#play-btn').addEventListener('click', event => {
     button.classList.add('fade');
     const title = document.getElementsByTagName('main')[0];
     title.classList.add('fade');
+    mode = 'play';
 });
 
 
@@ -188,3 +241,8 @@ document.getElementById('stick-sensor-container-0').style.display = 'none';
 document.getElementById('stick-sensor-container-1').style.display = 'none';
 document.getElementById('foot-sensor-container-0').style.display = 'none';
 document.getElementById('foot-sensor-container-1').style.display = 'none';
+
+document.getElementById('shape-square').addEventListener('click', event => noteToSet = 'square');
+document.getElementById('shape-circle').addEventListener('click', event => noteToSet = 'circle');
+document.getElementById('shape-line').addEventListener('click', event => noteToSet = 'line');
+document.getElementById('shape-triangle').addEventListener('click', event => noteToSet = 'triangle');
