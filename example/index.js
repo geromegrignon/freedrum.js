@@ -6,6 +6,8 @@ let audio;
 
 let sensors = [];
 
+$ = document.getElementById;
+
 var cowbell = new Howl({src: ['./assets/cowbell.wav']});
 var kick = new Howl({src: ['./assets/kick.wav']});
 var snare = new Howl({src: ['./assets/snare.wav']});
@@ -135,8 +137,8 @@ function testShape(note) {
   shapes.forEach(shape => {
     if(note === shape.note) {
       var id = 'shape-' + shape.name;
-      document.getElementById(id).style.background = 'orange';
-      setTimeout(() => document.getElementById(id).style.background = 'white', 300);
+      $(id).style.background = 'orange';
+      setTimeout(() => $(id).style.background = 'white', 300);
     }
   });
 }
@@ -155,7 +157,7 @@ function resetShape(note) {
     if(shape.note === note) {
       shape.note = undefined;
       var id = 'shape-' + shape.name;
-      document.getElementById(id).style.background = 'grey';
+      $(id).style.background = 'grey';
     }
   });
 }
@@ -216,52 +218,52 @@ document.querySelector('#sensor-add-foot-1').addEventListener('click', event => 
   .catch(error => { console.log(error) });
 });
 
-document.getElementById('play-btn').addEventListener('click', event => {
+$('play-btn').addEventListener('click', event => {
   fadeContent();
 });
 
-document.getElementById('sensor-btn-stick-0').addEventListener('click', event => {
+$('sensor-btn-stick-0').addEventListener('click', event => {
   let sensor = sensors.find(sensor => sensor.name === 'stick-0');
     sensor.disconnect();
 });
 
-document.getElementById('sensor-btn-stick-1').addEventListener('click', event => {
+$('sensor-btn-stick-1').addEventListener('click', event => {
   let sensor = sensors.find(sensor => sensor.name === 'stick-1');
     sensor.disconnect();
 });
 
-document.getElementById('sensor-btn-foot-0').addEventListener('click', event => {
+$('sensor-btn-foot-0').addEventListener('click', event => {
   let sensor = sensors.find(sensor => sensor.name === 'foot-0');
     sensor.disconnect();
 });
 
-document.getElementById('sensor-btn-foot-1').addEventListener('click', event => {
+$('sensor-btn-foot-1').addEventListener('click', event => {
   let sensor = sensors.find(sensor => sensor.name === 'foot-1');
     sensor.disconnect();
 });
 
-document.getElementById('shape-square').addEventListener('click', event => noteToSet = 'square');
-document.getElementById('shape-circle').addEventListener('click', event => noteToSet = 'circle');
-document.getElementById('shape-line').addEventListener('click', event => noteToSet = 'line');
-document.getElementById('shape-triangle').addEventListener('click', event => noteToSet = 'triangle');
+$('shape-square').addEventListener('click', event => noteToSet = 'square');
+$('shape-circle').addEventListener('click', event => noteToSet = 'circle');
+$('shape-line').addEventListener('click', event => noteToSet = 'line');
+$('shape-triangle').addEventListener('click', event => noteToSet = 'triangle');
 
 /* Utilities */
 
 function displaySensorInfo(sensor) {
-  document.getElementById('sensor-container-' + sensor.name).style.display = 'flex';
-  document.getElementById('sensor-add-' + sensor.name).style.display = 'none';
-  document.getElementById('sensor-name-' + sensor.name).innerHTML = sensor.device.name;
+  $('sensor-container-' + sensor.name).style.display = 'flex';
+  $('sensor-add-' + sensor.name).style.display = 'none';
+  $('sensor-name-' + sensor.name).innerHTML = sensor.device.name;
 }
 
 function displayLight(sensorName) {
   let id = 'sensor-signal-' + sensorName;
-  document.getElementById(id).style.visibility = 'visible' ;
-  setTimeout(() => document.getElementById(id).style.visibility = 'hidden', 500);
+  $(id).style.visibility = 'visible' ;
+  setTimeout(() => $(id).style.visibility = 'hidden', 500);
 }
 
 function hideSensorInfo(sensorName) {
-  document.getElementById('sensor-container-' + sensorName).style.display = 'none';
-  document.getElementById('sensor-add-' + sensorName).style.display = 'flex';
+  $('sensor-container-' + sensorName).style.display = 'none';
+  $('sensor-add-' + sensorName).style.display = 'flex';
 }
 
 function fadeContent() {
